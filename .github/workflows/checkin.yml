@@ -26,6 +26,7 @@ jobs:
 
       - name: Run check-in script
         env:
+          PYTHONIOENCODING: utf-8
           ZAIMANHUA_COOKIE: ${{ secrets.ZAIMANHUA_COOKIE }}
           ZAIMANHUA_COOKIE_1: ${{ secrets.ZAIMANHUA_COOKIE_1 }}
           ZAIMANHUA_COOKIE_2: ${{ secrets.ZAIMANHUA_COOKIE_2 }}
