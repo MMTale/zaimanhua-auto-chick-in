@@ -5,6 +5,14 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.1.0] - 2026-01-10
+
+### Added
+
+- 支持多账号签到（最多 5 个账号）
+- 通过 `ZAIMANHUA_COOKIE_1`、`ZAIMANHUA_COOKIE_2` 等环境变量配置多账号
+- 向后兼容单账号 `ZAIMANHUA_COOKIE` 配置
+
 ## [1.0.1] - 2026-01-10
 
 ### Changed

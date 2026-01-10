@@ -27,4 +27,9 @@ jobs:
       - name: Run check-in script
         env:
           ZAIMANHUA_COOKIE: ${{ secrets.ZAIMANHUA_COOKIE }}
+          ZAIMANHUA_COOKIE_1: ${{ secrets.ZAIMANHUA_COOKIE_1 }}
+          ZAIMANHUA_COOKIE_2: ${{ secrets.ZAIMANHUA_COOKIE_2 }}
+          ZAIMANHUA_COOKIE_3: ${{ secrets.ZAIMANHUA_COOKIE_3 }}
+          ZAIMANHUA_COOKIE_4: ${{ secrets.ZAIMANHUA_COOKIE_4 }}
+          ZAIMANHUA_COOKIE_5: ${{ secrets.ZAIMANHUA_COOKIE_5 }}
         run: python src/checkin.py

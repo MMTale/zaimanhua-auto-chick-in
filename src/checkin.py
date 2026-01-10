@@ -2,13 +2,30 @@ import os
 from playwright.sync_api import sync_playwright
 
 
-def checkin():
-    cookie_str = os.environ.get('ZAIMANHUA_COOKIE')
-    if not cookie_str:
-        print("Error: ZAIMANHUA_COOKIE not set")
-        return False
+def get_all_cookies():
+    """获取所有账号的 Cookie"""
+    cookies_list = []
 
-    # 解析 Cookie 字符串为 Playwright 格式
+    # 兼容单账号配置
+    single = os.environ.get('ZAIMANHUA_COOKIE')
+    if single:
+        cookies_list.append(('默认账号', single))
+
+    # 支持多账号配置 ZAIMANHUA_COOKIE_1, _2, _3...
+    i = 1
+    while True:
+        cookie = os.environ.get(f'ZAIMANHUA_COOKIE_{i}')
+        if cookie:
+            cookies_list.append((f'账号 {i}', cookie))
+            i += 1
+        else:
+            break
+
+    return cookies_list
+
+
+def parse_cookies(cookie_str):
+    """解析 Cookie 字符串为 Playwright 格式"""
     cookies = []
     for item in cookie_str.split(';'):
         item = item.strip()
@@ -20,7 +37,12 @@ def checkin():
                 'domain': '.zaimanhua.com',
                 'path': '/'
             })
+    return cookies
 
+
+def checkin(cookie_str):
+    """执行签到"""
+    cookies = parse_cookies(cookie_str)
     print(f"已解析 {len(cookies)} 个 Cookie")
 
     with sync_playwright() as p:
@@ -80,6 +102,35 @@ def checkin():
         return result
 
 
+def main():
+    """主函数，支持多账号签到"""
+    cookies_list = get_all_cookies()
+
+    if not cookies_list:
+        print("Error: 未配置任何账号 Cookie")
+        print("请设置 ZAIMANHUA_COOKIE 或 ZAIMANHUA_COOKIE_1, ZAIMANHUA_COOKIE_2 等环境变量")
+        return False
+
+    print(f"共发现 {len(cookies_list)} 个账号")
+
+    all_success = True
+    for name, cookie_str in cookies_list:
+        print(f"\n{'='*40}")
+        print(f"正在签到: {name}")
+        print('='*40)
+        success = checkin(cookie_str)
+        if not success:
+            all_success = False
+
+    print(f"\n{'='*40}")
+    if all_success:
+        print("所有账号签到完成！")
+    else:
+        print("部分账号签到失败，请检查日志")
+
+    return all_success
+
+
 if __name__ == '__main__':
-    success = checkin()
+    success = main()
     exit(0 if success else 1)

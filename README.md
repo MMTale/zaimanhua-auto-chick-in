@@ -5,6 +5,7 @@
 ## 功能
 
 - 每天自动签到三次（北京时间 8:00、12:00、20:00）
+- 支持多账号签到（最多 5 个账号）
 - 使用 Playwright 模拟浏览器操作
 - 支持手动触发签到
 - 自动检测签到状态，避免重复签到
@@ -34,6 +35,20 @@
 4. Name 填写：`ZAIMANHUA_COOKIE`
 5. Value 填写：上一步复制的 Cookie 字符串
 6. 点击 **Add secret**
+
+#### 多账号配置（可选）
+
+如需签到多个账号，添加多个 Secret：
+
+| Secret 名称 | 说明 |
+|------------|------|
+| `ZAIMANHUA_COOKIE` | 默认账号（单账号时使用） |
+| `ZAIMANHUA_COOKIE_1` | 账号 1 |
+| `ZAIMANHUA_COOKIE_2` | 账号 2 |
+| `ZAIMANHUA_COOKIE_3` | 账号 3 |
+| ... | 最多支持 5 个账号 |
+
+> 注意：`ZAIMANHUA_COOKIE` 和 `ZAIMANHUA_COOKIE_1` 可以同时配置，脚本会依次签到所有账号。
 
 ### 4. 启用 Actions
 
