@@ -67,3 +67,6 @@ srccommented_comics.txt
 # Claude Code
 .claude/
 CLAUDE.md
+
+
+.env
