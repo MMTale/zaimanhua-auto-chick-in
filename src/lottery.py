@@ -136,51 +136,68 @@ def run_lottery_with_browser(cookie_str: str, token: str):
             print(f"    阅读任务: {'已完成' if read_done else '未完成'}")
 
             # 3. 点击任务按钮
+            # 按钮结构: .imgBoxP7 > .btn1 (任务一), .btn2 (任务二), .btn3 (任务三)
+            # 按钮文本只有 "已完成" 或 "去完成"，需要用 CSS 类名定位
             print("\n  [3] 执行任务...")
             initial_times = times
 
             # 任务一：关注微博（如果未完成）
             if not follow_done:
                 print("    [任务一] 关注微博...")
-                follow_btn = page.locator("text=关注").first
+                follow_btn = page.locator(".btn1")
                 if follow_btn.count() > 0:
-                    try:
-                        follow_btn.click(timeout=3000)
-                        page.wait_for_timeout(1500)
-                        print("      已点击关注按钮")
-                    except:
-                        print("      关注按钮点击失败")
+                    btn_text = follow_btn.inner_text(timeout=2000)
+                    if btn_text == "去完成":
+                        try:
+                            follow_btn.click(timeout=3000)
+                            page.wait_for_timeout(1500)
+                            print("      已点击关注按钮")
+                        except:
+                            print("      关注按钮点击失败")
+                    else:
+                        print(f"      按钮状态: {btn_text}")
+                else:
+                    print("      未找到关注按钮")
             else:
                 print("    [任务一] 关注微博: 已完成")
 
             # 任务二：分享页面（如果未完成）
             if not share_done:
                 print("    [任务二] 分享页面...")
-                share_btn = page.locator("text=分享").first
+                share_btn = page.locator(".btn2")
                 if share_btn.count() > 0:
-                    try:
-                        share_btn.click(timeout=3000)
-                        page.wait_for_timeout(1500)
-                        print("      已点击分享按钮")
-                    except:
-                        print("      分享按钮点击失败")
+                    btn_text = share_btn.inner_text(timeout=2000)
+                    if btn_text == "去完成":
+                        try:
+                            share_btn.click(timeout=3000)
+                            page.wait_for_timeout(1500)
+                            print("      已点击分享按钮")
+                        except:
+                            print("      分享按钮点击失败")
+                    else:
+                        print(f"      按钮状态: {btn_text}")
+                else:
+                    print("      未找到分享按钮")
             else:
                 print("    [任务二] 分享页面: 已完成")
 
             # 任务三：阅读漫画（如果未完成）
             if not read_done:
                 print("    [任务三] 阅读漫画...")
-                # 未完成时按钮显示"去完成"
-                read_btn = page.locator("text=去完成").first
+                read_btn = page.locator(".btn3")
                 if read_btn.count() > 0:
-                    try:
-                        read_btn.click(timeout=3000)
-                        page.wait_for_timeout(1500)
-                        print("      已点击去完成按钮")
-                    except:
-                        print("      去完成按钮点击失败")
+                    btn_text = read_btn.inner_text(timeout=2000)
+                    if btn_text == "去完成":
+                        try:
+                            read_btn.click(timeout=3000)
+                            page.wait_for_timeout(1500)
+                            print("      已点击阅读按钮")
+                        except:
+                            print("      阅读按钮点击失败")
+                    else:
+                        print(f"      按钮状态: {btn_text}")
                 else:
-                    print("      未找到去完成按钮")
+                    print("      未找到阅读按钮")
                     print("      提示：请先运行 watch.py 进行阅读")
             else:
                 print("    [任务三] 阅读漫画: 已完成")
